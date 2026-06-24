@@ -9,6 +9,25 @@ RS-485 is implemented in half-duplex mode using a MAX485 transceiver. Direction 
 
 ---
 
+## Changes from upstream
+
+This project remains structurally close to the original SARCnet Mk1 implementation. The main changes were introduced to keep the controller practical to build and usable with current hardware and software.
+
+- RS-485 transport replaced the original local USB/TTL usage for operational control at the rotator side.
+  Reason: the controller can now be used at a practical distance from the host system without requiring the PC or USB adapter to remain physically close to the rotator.
+- A half-duplex MAX485 interface was added, with DE/RE direction control handled in firmware.
+  Reason: this provides a simple and inexpensive wired link suitable for remote operation.
+- The original LSM303DLHC-based sensor path was extended with LSM303AGR support, using the currently available Adafruit board.
+  Reason: the sensors referenced by the original project are difficult to source or discontinued.
+- Sensor initialization, register handling, and calibration behavior were adapted for the LSM303AGR.
+  Reason: the replacement sensor is not register-compatible with the original hardware in all respects, so direct substitution without firmware changes would not be reliable.
+- Hamlib `rotctld` interoperability was validated for use with SDRangel Star Tracker, Satellite Tracker, and Radio Astronomy plugins.
+  Reason: the project is intended for practical integration with current tracking workflows rather than only direct serial use.
+
+The original control model, general project structure, and operating logic were preserved wherever possible.
+
+---
+
 ## RS-485 Wiring
 
 ### Block diagram
